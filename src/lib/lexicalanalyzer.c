@@ -16,11 +16,6 @@ char lex_nextchar() {
     return c;
 }
 
-//Desaloja la memoria del buffer
-void lex_destroy() {
-    doublebuffer_destroy();
-}
-
 //Analiza caracteres hasta que acepta un lexema y lo devuelve.
 struct node *lex_nextlex(){
 	char currentchar;

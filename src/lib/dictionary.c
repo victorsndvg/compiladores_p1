@@ -22,6 +22,30 @@ void printnode(struct node *thenode) {
     }
 }
 
+//Funcion para imprimir una lista de nodos
+void printnodelist(struct node *thenode) {
+    if (thenode) {
+        if (thenode->next) {
+            printnodelist(thenode->next);
+        }
+        printf(" (%04d) %s \n", thenode->code, thenode->lex);
+    }
+}
+
+//Funcion para liberar una lista de nodos
+void freenode(struct node *thenode) {
+    if (thenode) {
+        if (thenode->next) {
+            freenode(thenode->next);
+            thenode->next == NULL;
+        }
+        if (thenode->lex) {
+            free(thenode->lex);
+        }
+        free(thenode);
+    }
+}
+
 //Copiado de cadenas
 char *customstrdup(char *s) {
     char *p;
@@ -46,6 +70,23 @@ struct node *lookup(char *s) {
         if (strcmp(s, current->lex) == 0)
           return current; 
     return NULL; 
+}
+
+//Libear la tabla
+void freedictionary() {
+    int index;
+    for (index = 0; index < HASHSIZE; index += 1) 
+        freenode(hashtab[index]);
+}
+
+//Libear la tabla
+void printdictionary() {
+    printf("###############################\n");
+    printf("Tabla de símbolos\n");
+    printf("###############################\n");
+    int index;
+    for (index = 0; index < HASHSIZE; index += 1) 
+        printnodelist(hashtab[index]);
 }
 
 //Inserta lexemas en el diccionario

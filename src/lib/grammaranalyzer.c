@@ -6,7 +6,9 @@
 #include <doublebuffer.h>
 
 //Inicializa la tabla de simbolos con las palabras reservadas
-void lex_initialize(){
+void initialize(int chunk, FILE *file_ptr){
+    doublebuffer_create(chunk, file_ptr);
+
     push("package", _PACKAGE);
     push("import", _IMPORT);
     push("func", _FUNC);
@@ -41,10 +43,11 @@ void lex_initialize(){
     push(".", _POINT);
 }
 
-//Inicializa el analizador lexico
-void lex_create(int chunk, FILE *file_ptr) {
-    doublebuffer_create(chunk, file_ptr);
-	lex_initialize();
+//Desaloja la memoria del buffer y diccionario
+void destroy() {
+    doublebuffer_destroy();
+    printdictionary();
+    freedictionary();
 }
 
 //Obtiene los lexemas desde el diccionario y los imprime por pantalla
@@ -52,7 +55,7 @@ int grammar_analyze (int chunk, FILE *file_ptr) {
 	struct node *lex;
 	int counter = 0;
 
-    lex_create(chunk, file_ptr);
+    initialize(chunk, file_ptr);
 #ifdef DEBUG
 	printf("%03d ", counter++);
 #endif
@@ -64,5 +67,5 @@ int grammar_analyze (int chunk, FILE *file_ptr) {
 #endif
         lex = lex_nextlex();
     }
-    lex_destroy();
+    destroy();
 }

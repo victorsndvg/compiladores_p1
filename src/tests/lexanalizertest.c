@@ -7,7 +7,10 @@
 #include <lexanalizer.h>
 #include <dictionary.h>
 
-int initialize(){
+//Inicializa la tabla de simbolos con las palabras reservadas
+void initialize(int chunk, FILE *file_ptr){
+    doublebuffer_create(chunk, file_ptr);
+
     push("package", _PACKAGE);
     push("import", _IMPORT);
     push("func", _FUNC);
@@ -27,7 +30,7 @@ int initialize(){
     push("+=", _INCREASE);
     push("<-", _SEND);
     push("(", _OP);
-    push("(", _CP);
+    push(")", _CP);
     push("[", _OB);
     push("]", _CP);
     push("{", _OCB);
@@ -39,6 +42,13 @@ int initialize(){
     push("=", _EQ);
     push("+", _SUMM);
     push("-", _MINUS);
+    push(".", _POINT);
+}
+
+//Desaloja la memoria del buffer y diccionario
+void destroy() {
+    doublebuffer_destroy();
+    freedictionary();
 }
 
 int main ( int argc, char *argv[] ) {
@@ -54,7 +64,7 @@ int main ( int argc, char *argv[] ) {
 		//initialize();
 		file_ptr = openfile(argv[1]);
 		if (file_ptr) {
-		    lex_create(chunk, file_ptr);
+		    initialize(chunk, file_ptr);
 		    chunk=0;
 		    while (lex != NULL) {
 	//        for (chunk=0;chunk < 170; chunk++) {
@@ -65,7 +75,7 @@ int main ( int argc, char *argv[] ) {
 		            printnode(lex);
 		        }
 		    }
-		    lex_destroy();
+		    destroy();
 		}
 	}
 }
