@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <file.h>
 #include <doublebuffer.h>
@@ -16,13 +17,21 @@ char lex_nextchar() {
     return c;
 }
 
+//Libera un lexema
+void lex_free(char *lex) {
+    if(lex) {
+        free(lex);
+        lex = NULL;
+    }
+}
+
 //Analiza caracteres hasta que acepta un lexema y lo devuelve.
 struct node *lex_nextlex(){
 	char currentchar;
 	char previouschar;
 	int previousstate = ACCEPT;
 	int currentstate = ACCEPT;
-    char *lex;
+    char *lex = NULL;
 	struct node *thenode=NULL;
 
 	while (currentchar != EOF) {
@@ -37,22 +46,26 @@ struct node *lex_nextlex(){
 			printf(" |%02d->%02d|", previousstate, currentstate);
 #endif
 			currentstate = ACCEPT;
+            lex_free(lex);
             return thenode;
 		}else if ((previousstate == COMMENTLEX || previousstate == MULTICOMMENTLEX || previousstate == MULTICOMMENTENDLEX)  && (currentstate == ACCEPT)){
             doublebuffer_accept();
 		}else if ((previousstate != ACCEPT) && (currentstate == ACCEPT || currentchar == EOF)){
-                lex = doublebuffer_getsubstring();
-				thenode = push(lex, _ID);
-                doublebuffer_accept();
+            lex = doublebuffer_getsubstring();
+	    	thenode = push(lex, _ID);
+            doublebuffer_accept();
 #ifdef DEBUG 
-				printf(" |%02d->%02d|", previousstate, currentstate);
+			printf(" |%02d->%02d|", previousstate, currentstate);
 #endif
-                return thenode;
+            lex_free(lex);
+            return thenode;
         } else if (currentstate == ACCEPT){
             doublebuffer_advance();
 		}
 		previouschar = currentchar;
 		previousstate = currentstate;
+        lex_free(lex);
+
     }
     return NULL;
 }

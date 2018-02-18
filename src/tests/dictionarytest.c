@@ -13,6 +13,7 @@ int main( int argc, const char* argv[] )
     printnode(push("dos", 7));
     printnode(push("dos", 8));
 
+/*
     printf("Eliminamos:\n");
     printnode(pop("uno"));
     printnode(pop("uno"));
@@ -24,17 +25,9 @@ int main( int argc, const char* argv[] )
     printnode(pop("dos"));
     printnode(pop("dos"));
     printnode(pop("dos"));
-/*    printnode(pop("dos"));
-    printnode(pop("dos"));
-    printnode(pop("dos"));
-    printnode(pop("uno"));
-    printnode(pop("uno"));
-    printnode(pop("uno"));
-    printnode(pop("uno"));
-    printnode(pop("uno"));
-    printnode(pop("uno"));
 */
-
+    printdictionary();
+    freedictionary();
 
 }
 

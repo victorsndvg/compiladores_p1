@@ -41,8 +41,10 @@ void freenode(struct node *thenode) {
         }
         if (thenode->lex) {
             free(thenode->lex);
+            thenode->lex == NULL;
         }
         free(thenode);
+        thenode = NULL;
     }
 }
 
@@ -94,11 +96,14 @@ struct node *push(char *lex, int defaultcode) {
     struct node *current;
     struct node *previous;
     unsigned hashval;
+    if (lex == NULL)
+        return NULL;
 	//Si no encuentra el lexema a insertar
     if ((current = lookup(lex)) == NULL) {
         current = (struct node *) malloc(sizeof(*current));
-        if (current == NULL || (current->lex = customstrdup(lex)) == NULL)
+        if (current == NULL)
             return NULL;
+        current->lex = customstrdup(lex);
         current->code = defaultcode;
         hashval = hash(lex);
         current->next = hashtab[hashval];
@@ -107,8 +112,9 @@ struct node *push(char *lex, int defaultcode) {
 	//Si el lexema ya estaba presente en el dicionario
     } else {
         previous = (struct node *) malloc(sizeof(*previous));
-        if (previous == NULL || (previous->lex = customstrdup(lex)) == NULL)
+        if (previous == NULL)
             return NULL;
+        previous->lex = customstrdup(lex);
         previous->code = current->code;
         hashval = hash(lex);
         previous->next = current; 
