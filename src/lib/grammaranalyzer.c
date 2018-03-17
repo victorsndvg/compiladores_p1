@@ -22,7 +22,7 @@ void initialize(int chunk, FILE *file_ptr){
     push("go", _GO);
     push("len", _LEN);
     push("float32", _FLOAT32);
-    push("sum", _SUM);
+//    push("sum", _SUM);
     push("==", _EQCOMP);
     push(":=", _ASSIGN);
     push("+=", _INCREASE);

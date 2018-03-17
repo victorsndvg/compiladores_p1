@@ -23,12 +23,12 @@ void printnode(struct node *thenode) {
 }
 
 //Funcion para imprimir una lista de nodos
-void printnodelist(struct node *thenode) {
+void printnodelist(int level, struct node *thenode) {
     if (thenode) {
         if (thenode->next) {
-            printnodelist(thenode->next);
+            printnodelist(level+1, thenode->next);
         }
-        printf(" (%04d) %s \n", thenode->code, thenode->lex);
+        printf(" (%04d) (%02d) %s \n", thenode->code, level, thenode->lex);
     }
 }
 
@@ -88,7 +88,7 @@ void printdictionary() {
     printf("###############################\n");
     int index;
     for (index = 0; index < HASHSIZE; index += 1) 
-        printnodelist(hashtab[index]);
+        printnodelist(0, hashtab[index]);
 }
 
 //Inserta lexemas en el diccionario

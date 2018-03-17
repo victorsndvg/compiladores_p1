@@ -25,6 +25,17 @@ void lex_free(char *lex) {
     }
 }
 
+int return_type(int state, int default_ID) {
+    if (state == DIGITLEX) {
+        return _NUM;
+    } else if (state == HEXDIGITLEX) {
+        return _HEX;
+    } else if (state == STRINGLEX) {
+        return _STRING;
+    }
+    return default_ID;
+}
+
 //Analiza caracteres hasta que acepta un lexema y lo devuelve.
 struct node *lex_nextlex(){
 	char currentchar;
@@ -40,7 +51,7 @@ struct node *lex_nextlex(){
 		if (currentstate == STEPBACK){
             doublebuffer_stepback();
             lex = doublebuffer_getsubstring();
-			thenode = push(lex, _ID);
+			thenode = push(lex, return_type(previousstate, _ID));
             doublebuffer_accept();
 #ifdef DEBUG 
 			printf(" |%02d->%02d|", previousstate, currentstate);
@@ -52,7 +63,7 @@ struct node *lex_nextlex(){
             doublebuffer_accept();
 		}else if ((previousstate != ACCEPT) && (currentstate == ACCEPT || currentchar == EOF)){
             lex = doublebuffer_getsubstring();
-	    	thenode = push(lex, _ID);
+	    	thenode = push(lex, return_type(previousstate, _ID));
             doublebuffer_accept();
 #ifdef DEBUG 
 			printf(" |%02d->%02d|", previousstate, currentstate);

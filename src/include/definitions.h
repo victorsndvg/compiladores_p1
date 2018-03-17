@@ -16,6 +16,9 @@
 
 /* TIPOS DE DATOS */
 #define _FLOAT32 2001
+#define _NUM 2002
+#define _HEX 2003
+#define _STRING 2004
 
 /* OPERACIONES */
 
@@ -23,7 +26,7 @@
 #define _ASSIGN 3002
 #define _INCREASE 3003
 #define _SEND 3004
-#define _SUM 3005
+//#define _SUM 3005
 
 /* CARACTERES ASCII */
 
