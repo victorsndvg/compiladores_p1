@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <error.h>
 
 //Abre un fichero dada su ruta
 FILE * openfile(char * filename) {
@@ -6,7 +7,7 @@ FILE * openfile(char * filename) {
 	FILE *file_ptr;
 
 	if ( (file_ptr = fopen(filename, "r") ) == NULL) {
-		printf("ERROR: openning %s.\n", filename);
+		openfile_error(filename);
 	}
 	return file_ptr;
 }
@@ -15,7 +16,7 @@ FILE * openfile(char * filename) {
 void closefile(FILE * file_ptr) {
 
 	if (fclose(file_ptr)!=0) {
-		printf("ERROR: closing file.\n");
+		closefile_error();
 	}
 }
 

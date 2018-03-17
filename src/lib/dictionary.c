@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <error.h>
 
 // Nodo de una lista enlazada
 struct node { 
@@ -16,7 +17,7 @@ static struct node *hashtab[HASHSIZE]; //tabla hash de nodos
 //Funcion para imprimir un nodo por pantalla
 void printnode(struct node *thenode) {
     if (thenode == NULL) {
-        printf("  -> NULL node\n");
+        dictionary_error();
     } else {
         printf(" (%04d) %s \n", thenode->code, thenode->lex);
     }
@@ -27,6 +28,7 @@ void printnodelist(int level, struct node *thenode) {
     if (thenode) {
         if (thenode->next) {
             printnodelist(level+1, thenode->next);
+            return;
         }
         printf(" (%04d) (%02d) %s \n", thenode->code, level, thenode->lex);
     }
@@ -88,7 +90,7 @@ void printdictionary() {
     printf("###############################\n");
     int index;
     for (index = 0; index < HASHSIZE; index += 1) 
-        printnodelist(0, hashtab[index]);
+        printnodelist(1, hashtab[index]);
 }
 
 //Inserta lexemas en el diccionario

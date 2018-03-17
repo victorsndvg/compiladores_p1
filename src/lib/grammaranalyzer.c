@@ -22,6 +22,8 @@ void initialize(int chunk, FILE *file_ptr){
     push("go", _GO);
     push("len", _LEN);
     push("float32", _FLOAT32);
+    push("fmt", _FMT);
+    push("Println", _PRINTLN);
 //    push("sum", _SUM);
     push("==", _EQCOMP);
     push(":=", _ASSIGN);

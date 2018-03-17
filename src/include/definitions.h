@@ -13,6 +13,8 @@
 #define _MAKE 1009
 #define _GO 1010
 #define _LEN 1011
+#define _FMT 1012
+#define _PRINTLN 1011
 
 /* TIPOS DE DATOS */
 #define _FLOAT32 2001
