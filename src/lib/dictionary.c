@@ -24,11 +24,13 @@ void printnode(struct node *thenode) {
 }
 
 //Funcion para imprimir una lista de nodos
-void printnodelist(int level, struct node *thenode) {
+void printnodelist(int level, struct node *thenode, int recursive) {
     if (thenode) {
         if (thenode->next) {
-            printnodelist(level+1, thenode->next);
-            return;
+            printnodelist(level+1, thenode->next, recursive);
+            if (!recursive) {
+                return;
+            }
         }
         printf(" (%04d) (%02d) %s \n", thenode->code, level, thenode->lex);
     }
@@ -84,13 +86,13 @@ void freedictionary() {
 }
 
 //Libear la tabla
-void printdictionary() {
+void printdictionary(int recursive) {
     printf("###############################\n");
     printf("Tabla de símbolos\n");
     printf("###############################\n");
     int index;
     for (index = 0; index < HASHSIZE; index += 1) 
-        printnodelist(1, hashtab[index]);
+        printnodelist(1, hashtab[index], recursive);
 }
 
 //Inserta lexemas en el diccionario

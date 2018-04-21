@@ -48,7 +48,7 @@ void initialize(int chunk, FILE *file_ptr){
 //Desaloja la memoria del buffer y diccionario
 void destroy() {
     doublebuffer_destroy();
-    printdictionary();
+    printdictionary(0);
     freedictionary();
 }
 

@@ -6,6 +6,7 @@
 #include <statetransition.h>
 #include <dictionary.h>
 #include <definitions.h>
+#include <error.h>
 
 
 //Devuelve el proximo caracter desde el doble buffer
@@ -48,7 +49,10 @@ struct node *lex_nextlex(){
 	while (currentchar != EOF) {
 		currentchar = lex_nextchar();
         currentstate = statetransition(currentchar, currentstate);
-		if (currentstate == STEPBACK){
+        if (currentstate == ERROR){
+            lexical_error();
+            currentstate = ACCEPT;
+		} else if (currentstate == STEPBACK){
             doublebuffer_stepback();
             lex = doublebuffer_getsubstring();
 			thenode = push(lex, return_type(previousstate, _ID));
@@ -59,9 +63,9 @@ struct node *lex_nextlex(){
 			currentstate = ACCEPT;
             lex_free(lex);
             return thenode;
-		}else if ((previousstate == COMMENTLEX || previousstate == MULTICOMMENTLEX || previousstate == MULTICOMMENTENDLEX)  && (currentstate == ACCEPT)){
+		} else if ((previousstate == COMMENTLEX || previousstate == MULTICOMMENTLEX || previousstate == MULTICOMMENTENDLEX)  && (currentstate == ACCEPT)){
             doublebuffer_accept();
-		}else if ((previousstate != ACCEPT) && (currentstate == ACCEPT || currentchar == EOF)){
+		} else if ((previousstate != ACCEPT) && (currentstate == ACCEPT || currentchar == EOF)){
             lex = doublebuffer_getsubstring();
 	    	thenode = push(lex, return_type(previousstate, _ID));
             doublebuffer_accept();
