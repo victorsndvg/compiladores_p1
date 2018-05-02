@@ -26,6 +26,7 @@ void lex_free(char *lex) {
     }
 }
 
+//Reconocimiento del tipo de lexema (digito, hexadecimal o cadena)
 int return_type(int state, int default_ID) {
     if (state == DIGITLEX) {
         return _NUM;
@@ -46,12 +47,16 @@ struct node *lex_nextlex(){
     char *lex = NULL;
 	struct node *thenode=NULL;
 
+    // Mientras no alcancemos el final del fichero
 	while (currentchar != EOF) {
 		currentchar = lex_nextchar();
+        // Calculo del estado actual a partir del caracter actual
         currentstate = statetransition(currentchar, currentstate);
+        // Estado de error
         if (currentstate == ERROR){
             lexical_error();
             currentstate = ACCEPT;
+        // Aceptacion de un lexema con el siguiente caracter 
 		} else if (currentstate == STEPBACK){
             doublebuffer_stepback();
             lex = doublebuffer_getsubstring();
@@ -63,8 +68,10 @@ struct node *lex_nextlex(){
 			currentstate = ACCEPT;
             lex_free(lex);
             return thenode;
+        // Aceptacion de lexemas de commentarios
 		} else if ((previousstate == COMMENTLEX || previousstate == MULTICOMMENTLEX || previousstate == MULTICOMMENTENDLEX)  && (currentstate == ACCEPT)){
             doublebuffer_accept();
+        // Aceptacion estandar con la transicion de aceptacion
 		} else if ((previousstate != ACCEPT) && (currentstate == ACCEPT || currentchar == EOF)){
             lex = doublebuffer_getsubstring();
 	    	thenode = push(lex, return_type(previousstate, _ID));

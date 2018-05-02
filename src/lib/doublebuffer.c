@@ -57,10 +57,12 @@ char doublebuffer_nextchar() {
     end++;
     if(end == chunk) {
         block = 1;
+        // Evita la recarga de un buffer que ya esta cargado
         if(!stepback) blocklength = doublebuffer_load(block);
     } else if(end == 2*chunk) {
         end = 0;
         block = 0;
+        // Evita la recarga de un buffer que ya esta cargado
         if(!stepback) blocklength = doublebuffer_load(block);
     }
     stepback=0;
@@ -88,7 +90,7 @@ void doublebuffer_stepback() {
     end--;
 }
 
-//Devuelvve el lexema entre start y end
+//Devuelve el lexema entre start y end
 char *doublebuffer_getsubstring() {
     int i;
     int index=0;
@@ -96,6 +98,7 @@ char *doublebuffer_getsubstring() {
 #ifdef DEBUG 
 	printf("<%03d,%03d> ", start, end);
 #endif
+    // El lexema empieza en el segundo buffer y acaba en el primero
     if(end < start){
         substring = (char*) malloc(((2*chunk)-start+end)*(int)sizeof(char));
         for(i=start; i<2*chunk; i++) {
@@ -106,6 +109,7 @@ char *doublebuffer_getsubstring() {
             substring[index] = doublebuffer[i];
             index++;
         }
+    // El lexema está secuencialmente en doble buffer
     } else {
         substring = (char*) malloc((end-start)*(int)sizeof(char));
         memcpy( substring, &doublebuffer[start], end-start );

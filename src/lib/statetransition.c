@@ -138,7 +138,7 @@ int alpha_status(char c, int status) {
     return status;
 }
 
-//Analiza el cambio de estado desde un estado previo hasta el actual dado un nuevo caracter
+//Analiza el cambio de estado desde un estado de inicio o aceptación dado un nuevo caracter
 int statetransition(char c, int status) {
 
     if ( c == '\\') {
