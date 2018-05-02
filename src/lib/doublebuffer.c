@@ -8,6 +8,7 @@ int end = 0;            //Indice de final de lexema
 int chunk = 64;         //Tamaño de bloque del buffer
 int block = 0;          //Identificador de bloque
 int blocklength = 0;    //Longitud del la cadena a cargar en el bloque
+int stepback = 0;       //Ultima accion fue retroceder un caracter
 FILE *file_ptr = NULL;  //Puntero a fichero
 char *tmpbuffer;        //Bloque de buffer temporal
 char * doublebuffer;    //Doble buffer
@@ -56,12 +57,13 @@ char doublebuffer_nextchar() {
     end++;
     if(end == chunk) {
         block = 1;
-        blocklength = doublebuffer_load(block);
+        if(!stepback) blocklength = doublebuffer_load(block);
     } else if(end == 2*chunk) {
         end = 0;
         block = 0;
-        blocklength = doublebuffer_load(block);
+        if(!stepback) blocklength = doublebuffer_load(block);
     }
+    stepback=0;
     return c;
 }
 
@@ -82,6 +84,7 @@ void doublebuffer_advance() {
 
 //Decrementa la posición del final del lexema.
 void doublebuffer_stepback() {
+    stepback=1;
     end--;
 }
 
