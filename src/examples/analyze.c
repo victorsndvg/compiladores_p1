@@ -12,7 +12,9 @@ int main ( int argc, char *argv[] ) {
     } else  {
 		file_ptr = openfile(argv[1]);
 		if (file_ptr) {
-			grammar_analyze(chunk, file_ptr);
+            initialize(chunk, file_ptr);
+			grammar_analyze();
+            destroy();
 		}
 	}
 }

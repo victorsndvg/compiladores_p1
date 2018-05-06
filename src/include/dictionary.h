@@ -6,3 +6,4 @@ void printnode(struct node *thenode);
 void freenode(struct node *thenode);
 void freedictionary();
 void printdictionary();
+void initialize_dictionary();

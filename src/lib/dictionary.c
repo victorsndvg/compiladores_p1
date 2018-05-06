@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <error.h>
+#include <definitions.h>
 
 // Nodo de una lista enlazada
 struct node { 
@@ -137,4 +138,42 @@ struct node *pop(char *s) {
             return current; /* found */
         }
     return NULL; 
+}
+
+void initialize_dictionary() {
+
+    push("package", _PACKAGE);
+    push("import", _IMPORT);
+    push("func", _FUNC);
+    push("var", _VAR);
+    push("chan", _CHAN);
+    push("for", _FOR);
+    push("range", _RANGE);
+    push("range", _RANGE);
+    push("real", _REAL);
+    push("make", _MAKE);
+    push("go", _GO);
+    push("len", _LEN);
+    push("float32", _FLOAT32);
+    push("fmt", _FMT);
+    push("Println", _PRINTLN);
+//    push("sum", _SUM);
+    push("==", _EQCOMP);
+    push(":=", _ASSIGN);
+    push("+=", _INCREASE);
+    push("<-", _SEND);
+    push("(", _OP);
+    push(")", _CP);
+    push("[", _OB);
+    push("]", _CP);
+    push("{", _OCB);
+    push("}", _CCB);
+    push(",", _COMMA);
+    push(":", _C);
+    push(";", _SC);
+    push("/", _DIV);
+    push("=", _EQ);
+    push("+", _SUMM);
+    push("-", _MINUS);
+    push(".", _POINT);
 }
