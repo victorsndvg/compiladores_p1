@@ -20,7 +20,7 @@ void destroy() {
 //Obtiene los lexemas desde el diccionario y los imprime por pantalla
 int grammar_analyze () {
 	struct node *lex;
-	int counter = 0;
+	int newline = 0;
 
 #ifdef DEBUG
 	printf("%03d ", counter++);

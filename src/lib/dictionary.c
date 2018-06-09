@@ -96,13 +96,34 @@ void printdictionary(int recursive) {
         printnodelist(1, index, hashtab[index], recursive);
 }
 
+
+char *trimwhitespace(char *str)
+{
+  char *end;
+
+  // Trim leading space
+  while(isspace((unsigned char)*str)) str++;
+
+  if(*str == 0)  // All spaces?
+    return str;
+
+  // Trim trailing space
+  end = str + strlen(str) - 1;
+  while(end > str && isspace((unsigned char)*end)) end--;
+
+  // Write new null terminator
+  *(end+1) = 0;
+
+  return str;
+}
+
 //nuevo nodo
 struct node *newnode(char *lex, int code) {
     struct node *thenode;
     thenode = (struct node *) malloc(sizeof(*thenode));
     if (thenode == NULL)
         return NULL;
-    thenode->lex = customstrdup(lex);
+    thenode->lex = trimwhitespace(customstrdup(lex));
     thenode->code = code;
     return thenode;
 }

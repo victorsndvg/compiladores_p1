@@ -58,6 +58,11 @@ struct node *lex_nextlex(){
             lexical_error();
             currentstate = ACCEPT;
         // Aceptacion de un lexema con el siguiente caracter 
+        } else if (currentstate == NEWLINE){
+            thenode = newnode("\\n", _NEWLINE);
+            currentchar = previouschar;
+            currentstate = previousstate;
+            return thenode;
 		} else if (currentstate == STEPBACK){
             doublebuffer_stepback();
             lex = doublebuffer_getsubstring();

@@ -16,6 +16,7 @@
 #define _FMT 1012
 #define _PRINTLN 1011
 #define _FLOAT32 1012
+#define _NEWLINE 1013
 
 /* TIPOS DE DATOS */
 #define _NUM 2001

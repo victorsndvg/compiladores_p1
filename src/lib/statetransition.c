@@ -11,7 +11,9 @@ Filtrado do tipo a partir do primeiro caracter do lexema.
 Estado posterior a aceptación.
 */
 int initial_status(char c, int status) {
-    if ( c == '-' || c == '+') {
+    if ( c == '\n') {
+		status = NEWLINE;
+    } else if ( c == '-' || c == '+') {
 		status = SIGNLEX;
 	} else if (c == '"') {
 		status = STRINGLEX;

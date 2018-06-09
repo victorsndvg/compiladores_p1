@@ -13,6 +13,7 @@
 #define OPERATORSINGLECHAR 12
 #define OPERATORMULTICHAR 13
 #define POINTCHAR 14
+#define NEWLINE 15
 #define ERROR -1
 
 int statetransition(char c, int status);
