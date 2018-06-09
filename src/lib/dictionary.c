@@ -96,6 +96,17 @@ void printdictionary(int recursive) {
         printnodelist(1, index, hashtab[index], recursive);
 }
 
+//nuevo nodo
+struct node *newnode(char *lex, int code) {
+    struct node *thenode;
+    thenode = (struct node *) malloc(sizeof(*thenode));
+    if (thenode == NULL)
+        return NULL;
+    thenode->lex = customstrdup(lex);
+    thenode->code = code;
+    return thenode;
+}
+
 //Inserta lexemas en el diccionario
 struct node *push(char *lex, int defaultcode) {
     struct node *current;
@@ -105,22 +116,14 @@ struct node *push(char *lex, int defaultcode) {
         return NULL;
 	//Si no encuentra el lexema a insertar
     if ((current = lookup(lex)) == NULL) {
-        current = (struct node *) malloc(sizeof(*current));
-        if (current == NULL)
-            return NULL;
-        current->lex = customstrdup(lex);
-        current->code = defaultcode;
+        current = newnode(lex, defaultcode);
         hashval = hash(lex);
         current->next = hashtab[hashval];
         hashtab[hashval] = current;
         return current;
 	//Si el lexema ya estaba presente en el dicionario
     } else {
-        previous = (struct node *) malloc(sizeof(*previous));
-        if (previous == NULL)
-            return NULL;
-        previous->lex = customstrdup(lex);
-        previous->code = current->code;
+        previous = newnode(lex, current->code);
         hashval = hash(lex);
         previous->next = current; 
         hashtab[hashval] = previous;

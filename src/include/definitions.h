@@ -15,12 +15,12 @@
 #define _LEN 1011
 #define _FMT 1012
 #define _PRINTLN 1011
+#define _FLOAT32 1012
 
 /* TIPOS DE DATOS */
-#define _FLOAT32 2001
-#define _NUM 2002
-#define _HEX 2003
-#define _STRING 2004
+#define _NUM 2001
+#define _HEX 2002
+#define _STRING 2003
 
 /* OPERACIONES */
 

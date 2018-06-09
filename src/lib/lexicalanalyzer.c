@@ -42,6 +42,7 @@ int return_type(int state, int default_ID) {
 struct node *lex_nextlex(){
 	char currentchar;
 	char previouschar;
+    int type = 0;
 	int previousstate = ACCEPT;
 	int currentstate = ACCEPT;
     char *lex = NULL;
@@ -60,7 +61,12 @@ struct node *lex_nextlex(){
 		} else if (currentstate == STEPBACK){
             doublebuffer_stepback();
             lex = doublebuffer_getsubstring();
-			thenode = push(lex, return_type(previousstate, _ID));
+            type = return_type(previousstate, _ID);
+            if (type == _ID) {
+			    thenode = push(lex, type);
+            } else {
+                thenode = newnode(lex, type);
+            }
             doublebuffer_accept();
 #ifdef DEBUG 
 			printf(" |%02d->%02d|", previousstate, currentstate);
@@ -74,7 +80,12 @@ struct node *lex_nextlex(){
         // Aceptacion estandar con la transicion de aceptacion
 		} else if ((previousstate != ACCEPT) && (currentstate == ACCEPT || currentchar == EOF)){
             lex = doublebuffer_getsubstring();
-	    	thenode = push(lex, return_type(previousstate, _ID));
+	    	type = return_type(previousstate, _ID);
+            if (type == _ID) {
+			    thenode = push(lex, type);
+            } else {
+                thenode = newnode(lex, type);
+            }
             doublebuffer_accept();
 #ifdef DEBUG 
 			printf(" |%02d->%02d|", previousstate, currentstate);
