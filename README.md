@@ -1,7 +1,7 @@
 # Compiladores e Intérpretes
 ## Practica 1: Analizador léxico
 
-### 1. Compilacion
+### 1. Compilación
 
 La compilación del código fuente está basado en CMake.
 Se puede obtener una distribución de CMake para Windows, Linux o Mac en el siguiente enlace: https://cmake.org/download/
